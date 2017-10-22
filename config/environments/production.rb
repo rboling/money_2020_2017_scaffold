@@ -76,4 +76,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.base_url = "https://syf2020.syfwebservices.com/v1_0/"
 end

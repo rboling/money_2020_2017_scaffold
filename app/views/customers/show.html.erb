@@ -1,0 +1,55 @@
+<h1>Info about <%= @customer.first_name %> <%= @customer.last_name %></h1>
+<img src="/assets/taylor_swift_profile.jpg" alt="Taylor Swift" height="92" width="92">
+<div class="tab">
+  <button id="defaultOpen" class="tablinks" onclick="openCity(event, 'Customer_Overview')">Customer Overview</button>
+  <button class="tablinks" onclick="openCity(event, 'Transactions')">Transactions</button>
+  <button class="tablinks" onclick="openCity(event, 'FuturePurchases')">Future Purchases</button>
+  <button class="tablinks" onclick="openCity(event, 'Loyalty')">Loyalty</button>
+</div>
+<div id="Customer_Overview" class="tabcontent">
+  <p>In absolute terms, <%= @customer.first_name + " " + @customer.last_name  %> is in the <%= @advice["highestCategoryAbsolutePercentile"] %> percentaile in spending on <%= @advice["highestCategoryAbsolute"] %> </p>
+  <p>In absolute terms, <%= @customer.first_name + " " + @customer.last_name  %> is in the <%= @advice["lowestCategoryAbsolutePercentile"] %> percentaile in spending on <%= @advice["lowestCategoryAbsolute"] %></p>
+  <p>In relative terms, <%= @customer.first_name + " " + @customer.last_name  %> is in the <%= @advice["highestCategoryRelativePercentile"] %> percentaile in spending on <%= @advice["highestCategoryRelative"] %></p>
+  <p>In relative terms, <%= @customer.first_name + " " + @customer.last_name  %> is in the <%= @advice["lowestCategoryRelativePercentile"] %> percentaile in spending on <%= @advice["lowestCategoryRelative"] %></p>
+</div>
+<div id='Transactions' class="tabcontent">
+  <b>Past Transactions</b>
+  
+    <table>
+      <th>
+        <tr>
+          <td>Purchase Date</td>
+          <td>Item Name</td>
+          <td>Price</td>
+        </tr>
+      </th>
+      <% @purchases.each do |t| %>
+        
+          <% t.skus.each do |sku| %>
+            <tr>
+            	<td><%= t.purchase_date %></td>
+              <td><%= sku.name %></td>
+              <td><%= sku.price %></td>
+            </tr>
+          <% end %>
+        
+      <% end %>
+    </table>
+</div>
+<div id='FuturePurchases' class="tabcontent">
+  <table>
+  <% @next_purchase.next_purchase(@customer.synchrony_account_num)["categories"].each do |category| %>
+    <tr>
+      <td><%= category["categoryName"] %></td>
+      <td><%= category["probability"] %></td>
+    </tr> 
+  <% end %>
+</div>
+<div id='Loyalty' class="tabcontent">
+<p>View <%= @customer.first_name %> <%= @customer.last_name %>'s loyalty offers</p>
+  <>
+</div>
+<script>
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
